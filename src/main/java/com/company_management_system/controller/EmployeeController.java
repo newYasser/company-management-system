@@ -5,10 +5,7 @@ import com.company_management_system.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -36,6 +33,14 @@ public class EmployeeController {
     public String addNewEmployee(@ModelAttribute("employee") Employee employee){
         employeeService.save(employee);
         return "redirect:/employees/table";
+    }
+
+    @GetMapping("/edit")
+    public String editEmployee(@RequestParam("id") Long id, Model model){
+
+        Employee employee = employeeService.getEmployeeById(id);
+        model.addAttribute("employee",employee);
+        return "edit-employee-form";
     }
 
 }
