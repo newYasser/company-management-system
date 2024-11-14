@@ -6,9 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/employees")
@@ -22,4 +25,17 @@ public class EmployeeController {
         model.addAttribute("employees",employees);
         return "employees-table";
     }
+
+    @GetMapping("/add")
+    public String showAddNewEmployeeForm(Model model){
+        model.addAttribute("employee", new Employee());
+        return "add-employee-form";
+    }
+
+    @PostMapping("/save")
+    public String addNewEmployee(@ModelAttribute("employee") Employee employee){
+        employeeService.save(employee);
+        return "redirect:/employees/table";
+    }
+
 }

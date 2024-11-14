@@ -12,7 +12,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @Entity
-@Table
+@Table(name="employee")
 public class Employee {
 
     @Id
@@ -21,7 +21,7 @@ public class Employee {
     @Column
     private String firstName;
     @Column
-    private String LastName;
+    private String lastName;
     @Column
     private String email;
 
