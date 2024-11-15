@@ -25,4 +25,6 @@ public class EmployeeService {
     public Employee getEmployeeById(Long id){
         return employeeRepository.getReferenceById(id);
     }
+
+    public void deleteEmployeeById(Long id){employeeRepository.deleteById(id);}
 }
