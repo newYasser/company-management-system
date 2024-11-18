@@ -1,7 +1,8 @@
 package com.company_management_system.controller;
 
 import com.company_management_system.entity.Employee;
-import com.company_management_system.service.EmployeeServiceImp;
+import com.company_management_system.service.EmployeeService;
+import com.company_management_system.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,7 +15,9 @@ import java.util.List;
 public class EmployeeController {
 
     @Autowired
-    private EmployeeServiceImp employeeService;
+    private EmployeeService employeeService;
+    @Autowired
+    private RoleService roleService;
     @GetMapping("/table")
     public String getAllEmployee(Model model){
         List<Employee> employees = employeeService.getAllEmployees();
@@ -25,6 +28,7 @@ public class EmployeeController {
     @GetMapping("/add")
     public String showAddNewEmployeeForm(Model model){
         model.addAttribute("employee", new Employee());
+        model.addAttribute("roles", roleService.getAllRoles());
         return "add-employee-form";
     }
 
