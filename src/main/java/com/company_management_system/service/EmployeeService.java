@@ -1,30 +1,21 @@
 package com.company_management_system.service;
 
 import com.company_management_system.entity.Employee;
-import com.company_management_system.repository.EmployeeRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
-public class EmployeeService {
+public interface EmployeeService {
+    public List<Employee> getAllEmployees();
 
-    @Autowired
-    private EmployeeRepository employeeRepository;
+    public Employee save(Employee employee);
 
-    public List<Employee> getAllEmployees(){
+    public Employee getEmployeeById(Long id);
+    public void deleteEmployeeById(Long id);
+    public Employee registerUser(Employee employee);
+    public boolean isUsernameTaken(String username);
+    public Employee getEmployeeByUsername(String username);
 
-        return employeeRepository.findAll();
-    }
 
-    public Employee save(Employee employee) {
-        return employeeRepository.save(employee);
-    }
-
-    public Employee getEmployeeById(Long id){
-        return employeeRepository.getReferenceById(id);
-    }
-
-    public void deleteEmployeeById(Long id){employeeRepository.deleteById(id);}
 }

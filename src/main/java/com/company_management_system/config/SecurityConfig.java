@@ -3,6 +3,8 @@ package com.company_management_system.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
@@ -15,18 +17,24 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain (HttpSecurity http) throws Exception {
 
-        http.authorizeHttpRequests(configurer ->
+        http
+                .authorizeRequests(configurer ->
                         configurer
-                                .requestMatchers("/").permitAll()
+                                .requestMatchers("/auth/**").permitAll()
                                 .requestMatchers("/manager/**").hasRole("MANAGER")
                                 .requestMatchers("/admin/**").hasRole("ADMIN")
+                                .requestMatchers("/").hasAnyRole("EMPLOYEE", "MANAGER", "ADMIN")
                                 .anyRequest().authenticated()
-                )
-                .formLogin(form ->
+                )                .formLogin(form ->
                         form
-                                .loginPage("/login-page")
+                                .loginPage("/auth/login-page")
                                 .loginProcessingUrl("/login")
                                 .permitAll()
+                )
+                .logout(logout -> logout.permitAll())
+                .exceptionHandling(configurer ->
+                        configurer.accessDeniedPage("/access-denied")
+
                 );
 
 
@@ -46,6 +54,11 @@ public class SecurityConfig {
         );
 
         return jdbcUserDetailsManager;
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
     }
 
 }

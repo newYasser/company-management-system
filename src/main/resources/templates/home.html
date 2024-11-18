@@ -1,9 +1,85 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-    <meta charset="UTF-8">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
     <title>Home</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .home-container {
+            background-color: #fff;
+            padding: 20px 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        h1 {
+            margin: 0;
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #333;
+        }
+
+        .welcome-message {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #555;
+        }
+
+        .employee-info {
+            margin-bottom: 20px;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .role {
+            font-weight: bold;
+            color: #007BFF;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            background-color: #007BFF;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
 <body>
-        <h1>Home Page</h1>
+<div class="home-container">
+    <h1>Welcome to the Home Page</h1>
+    <div class="welcome-message">
+        <p>Welcome, <span th:text="${employee.firstName}"></span> <span th:text="${employee.lastName}"></span>!</p>
+        <p>Your role is: <span class="role" th:text="${employee.role.name}"></span></p>
+    </div>
+
+    <div class="employee-info">
+        <p><strong>Username:</strong> <span th:text="${employee.username}"></span></p>
+        <p><strong>Email:</strong> <span th:text="${employee.email}"></span></p>
+    </div>
+
+    <form th:action="@{/logout}" method="post">
+        <button type="submit">Logout</button>
+    </form>
+</div>
 </body>
 </html>

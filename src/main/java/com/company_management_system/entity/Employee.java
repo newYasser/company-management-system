@@ -33,10 +33,12 @@ public class Employee {
     private String username;
 
     @Column(nullable = false)
-    private String password; // Store hashed password here
+    private String password;
 
+    @Column(nullable = false)
+    private boolean enabled;
     @ManyToOne
-    @JoinColumn(name = "role_id", nullable = false)
+    @JoinColumn(name = "role_id")
     private Role role;
 
 }
