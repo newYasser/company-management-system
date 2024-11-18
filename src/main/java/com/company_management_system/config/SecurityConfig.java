@@ -17,8 +17,8 @@ public class SecurityConfig {
 
         http.authorizeHttpRequests(configurer ->
                         configurer
-                                .requestMatchers("/").hasRole("EMPLOYEE")
-                                .requestMatchers("/managers/**").hasRole("MANAGER")
+                                .requestMatchers("/").permitAll()
+                                .requestMatchers("/manager/**").hasRole("MANAGER")
                                 .requestMatchers("/admin/**").hasRole("ADMIN")
                                 .anyRequest().authenticated()
                 )
@@ -34,19 +34,18 @@ public class SecurityConfig {
     }
 
     @Bean
-    public UserDetailsManager userDetailsManager(DataSource dataSource){
-
+    public UserDetailsManager userDetailsManager(DataSource dataSource) {
         JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(dataSource);
 
         jdbcUserDetailsManager.setUsersByUsernameQuery(
-                "select id, first_name, last_name, email, username, password, role_id from employee where id=? "
+                "SELECT username, password, enabled FROM employee WHERE username = ?"
         );
 
         jdbcUserDetailsManager.setAuthoritiesByUsernameQuery(
-                "select id, name from role where id=? "
+                "SELECT e.username, r.name FROM employee e JOIN role r ON e.role_id = r.id WHERE e.username = ?"
         );
+
         return jdbcUserDetailsManager;
     }
-
 
 }
